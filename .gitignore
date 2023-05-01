@@ -2,3 +2,4 @@ build
 testdata/*.txt
 testdata/*.bin
 !testdata/test_vec.txt
+!testdata/test_mat.txt

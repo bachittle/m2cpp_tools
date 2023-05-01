@@ -3,10 +3,10 @@
 #include <iostream>
 #include "m2cpp/utils.hpp"
 
-// #define MAT_BIN_TO_TXT 1
+#define MAT_BIN_TO_TXT 1
 // #define MAT_TXT_TO_BIN 1
 
-#define VEC_BIN_TO_TXT 1
+// #define VEC_BIN_TO_TXT 1
 // #define VEC_TXT_TO_BIN 1
 
 int main(int argc, char ** argv) {
@@ -28,7 +28,16 @@ int main(int argc, char ** argv) {
     std::cout << "rows: " << mat.rows() << std::endl;
     std::cout << "cols: " << mat.cols() << std::endl;
     
-    m2cpp::save_text(output_filename, mat);
+    m2cpp::save_text_mat(output_filename, mat);
+    #endif
+
+    #ifdef MAT_TXT_TO_BIN
+    auto mat = m2cpp::load_text_mat<Eigen::MatrixXf>(filename);
+    std::cout << "Loaded matrix: " << std::endl;
+    std::cout << "rows: " << mat.rows() << std::endl;
+    std::cout << "cols: " << mat.cols() << std::endl;
+    
+    m2cpp::save_binary_mat<float>(output_filename, mat);
     #endif
 
     #ifdef VEC_TXT_TO_BIN
