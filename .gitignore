@@ -1,2 +1,4 @@
-/build
-/testdata
+build
+testdata/*.txt
+testdata/*.bin
+!testdata/test_vec.txt
