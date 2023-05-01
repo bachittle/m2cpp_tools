@@ -6,8 +6,8 @@
 // #define MAT_BIN_TO_TXT 1
 // #define MAT_TXT_TO_BIN 1
 
-// #define VEC_BIN_TO_TXT 1
-#define VEC_TXT_TO_BIN 1
+#define VEC_BIN_TO_TXT 1
+// #define VEC_TXT_TO_BIN 1
 
 int main(int argc, char ** argv) {
     if (argc < 2) {
@@ -19,9 +19,11 @@ int main(int argc, char ** argv) {
     if (argc >= 3) {
         output_filename = argv[2];
     } 
-    #ifdef MAT_BIN_TO_TXT
+
     std::cout << "Loading file: " << filename << "..." << std::endl;
-    auto mat = m2cpp::load_binary<Eigen::MatrixXf, float>(filename);
+
+    #ifdef MAT_BIN_TO_TXT
+    auto mat = m2cpp::load_binary_mat<Eigen::MatrixXf, float>(filename);
     std::cout << "Loaded matrix: " << std::endl;
     std::cout << "rows: " << mat.rows() << std::endl;
     std::cout << "cols: " << mat.cols() << std::endl;
@@ -30,12 +32,19 @@ int main(int argc, char ** argv) {
     #endif
 
     #ifdef VEC_TXT_TO_BIN
-    std::cout << "Loading file: " << filename << "..." << std::endl;
-    auto mat = m2cpp::load_text_vec<Eigen::VectorXf>(filename);
+    auto vec = m2cpp::load_text_vec<Eigen::VectorXf>(filename);
     std::cout << "Loaded vector: " << std::endl;
-    std::cout << "size: " << mat.size() << std::endl;
+    std::cout << "size: " << vec.size() << std::endl;
     
-    m2cpp::save_binary<float>(output_filename, mat);
+    m2cpp::save_binary_vec<float>(output_filename, vec);
+    #endif
+    
+    #ifdef VEC_BIN_TO_TXT
+    auto vec = m2cpp::load_binary_vec<Eigen::VectorXf, float>(filename);
+    std::cout << "Loaded vector: " << std::endl;
+    std::cout << "size: " << vec.size() << std::endl;
+    
+    m2cpp::save_text_vec(output_filename, vec);
     #endif
     
     return 0;
